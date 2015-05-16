@@ -8,10 +8,10 @@
 
     <string name="hello_world">Hello world!</string>
 
-    <string name="BL_dark_blue">#004b8d</string>
+    <!--<string name="BL_dark_blue">#004b8d</string>
     <string name="BL_light_blue">#00aeef</string>
     <string name="BL_red">#e31936</string>
     <string name="BL_gray">#a7a9ac</string>
-    <string name="BL_white">#ffffff</string>
+    <string name="BL_white">#ffffff</string>-->
 
 </resources>

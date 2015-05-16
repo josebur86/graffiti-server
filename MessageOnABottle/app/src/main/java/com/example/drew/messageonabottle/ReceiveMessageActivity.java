@@ -18,15 +18,17 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ReceiveMessageActivity extends ActionBarActivity {
 
-    //public final static String apiURL = "https://desolate-coast-8534.herokuapp.com/api/v1/message/1";
-    public String apiURL;
+    public final static String apiURL = "https://desolate-coast-8534.herokuapp.com/api/v1/message/1";
     private Toast _toast;
+    private String _message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +37,8 @@ public class ReceiveMessageActivity extends ActionBarActivity {
 
         _toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
-        Bundle b = getIntent().getExtras();
-        String qrCodeURI = b.getString("qr_code_uri");
+        new CallAPI().execute(apiURL);
 
-        if (qrCodeURI == null || qrCodeURI.isEmpty())
-        {
-            _toast.setText(String.format("URI from QR code was either null or empty."));
-            _toast.show();
-            return;
-        }
-        new CallAPI().execute(qrCodeURI);
     }
 
     @Override
@@ -99,8 +93,8 @@ public class ReceiveMessageActivity extends ActionBarActivity {
             try {
                 URL url = new URL(urlString);
 
-                //HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                //in = new BufferedInputStream(urlConnection.getInputStream());
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                in = new BufferedInputStream(urlConnection.getInputStream());
 
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpContext localContext = new BasicHttpContext();
@@ -129,7 +123,7 @@ public class ReceiveMessageActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(String result) {
-
+            _message = result;
         }
     }
 }

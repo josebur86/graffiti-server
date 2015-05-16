@@ -61,12 +61,17 @@ public class ScanCodeActivity extends ActionBarActivity implements View.OnClickL
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             String scanResultString = scanResult.getContents();
-
             Intent messageIntent = new Intent();
-            messageIntent.setClass(this, ReceiveMessageActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("qr_code_uri", scanResultString);
-            messageIntent.putExtras(bundle);
+
+            if (scanResultString.equals("ReceiveMessage"))
+            {
+                messageIntent.setClass(this, ReceiveMessageActivity.class);
+            }
+            else
+            {
+                messageIntent.setClass(this, SendMessageActivity.class);
+            }
+
             startActivity(messageIntent);
         }
     }
