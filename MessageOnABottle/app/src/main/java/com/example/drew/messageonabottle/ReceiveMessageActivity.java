@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -14,6 +15,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,7 +75,6 @@ public class ReceiveMessageActivity extends ActionBarActivity {
                 if (n>0) out.append(new String(b, 0, n));
             }
 
-
             return out.toString();
         }
 
@@ -97,15 +99,17 @@ public class ReceiveMessageActivity extends ActionBarActivity {
 
                 HttpResponse response = httpClient.execute(httpGet, localContext);
 
-
                 HttpEntity entity = response.getEntity();
 
+                if (entity != null) {
+                    String retSrc = EntityUtils.toString(entity);
+                    JSONObject result = new JSONObject(retSrc); //Convert String to JSON Object
 
-                String getRequestText = getASCIIContentFromEntity(entity);
+                    String receivedMessage = result.getString("message");
 
-                _toast.setText(String.format("Sent message: %s", getRequestText ));
-                _toast.show();
-
+                    final TextView textViewMessage = (TextView) findViewById(R.id.textViewMessage);
+                    textViewMessage.setText(receivedMessage);
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
 
