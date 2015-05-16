@@ -1,17 +1,23 @@
 package com.example.drew.messageonabottle;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class SendMessageActivity extends ActionBarActivity {
+
+    private Toast _toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
+        _toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -34,5 +40,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickButtonSendMessage(View view) {
+        final EditText messageText = (EditText) findViewById(R.id.editMessage);
+        _toast.setText(String.format("Sent message: %s", messageText.getText()));
+        _toast.show();
     }
 }
