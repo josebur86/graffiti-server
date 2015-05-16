@@ -24,7 +24,8 @@ import java.net.URL;
 
 public class ReceiveMessageActivity extends ActionBarActivity {
 
-    public final static String apiURL = "https://desolate-coast-8534.herokuapp.com/api/v1/message/1";
+    //public final static String apiURL = "https://desolate-coast-8534.herokuapp.com/api/v1/message/1";
+    public String apiURL;
     private Toast _toast;
 
     @Override
@@ -34,8 +35,16 @@ public class ReceiveMessageActivity extends ActionBarActivity {
 
         _toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
-        String urlString = apiURL;
-        new CallAPI().execute(urlString);
+        Bundle b = getIntent().getExtras();
+        String qrCodeURI = b.getString("qr_code_uri");
+
+        if (qrCodeURI == null || qrCodeURI.isEmpty())
+        {
+            _toast.setText(String.format("URI from QR code was either null or empty."));
+            _toast.show();
+            return;
+        }
+        new CallAPI().execute(qrCodeURI);
     }
 
     @Override
