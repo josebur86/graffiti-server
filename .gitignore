@@ -1,3 +1,7 @@
+#Ignore Android Studio stuff
+*/.idea/
+.idea/
+MessageOnABottle/.idea/
 # Built application files
 *.apk
 *.ap_

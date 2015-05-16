@@ -1,13 +1,16 @@
 package com.example.drew.messageonabottle;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 public class ScanCodeActivity extends ActionBarActivity implements View.OnClickListener {
@@ -48,8 +51,15 @@ public class ScanCodeActivity extends ActionBarActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
         integrator.setPrompt("Scan a barcode");
         integrator.initiateScan();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            String scanResultString = scanResult.getContents();
+            Log.d("code", scanResultString);
+        }
     }
 }
