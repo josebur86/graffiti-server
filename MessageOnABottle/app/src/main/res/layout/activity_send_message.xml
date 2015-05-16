@@ -9,16 +9,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewMessageLabel" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editMessage"
-        android:layout_below="@+id/textViewMessageLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,5 +17,17 @@
         android:layout_below="@+id/editMessage"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editMessage"
+        android:layout_below="@+id/textViewMessageLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonSendMessage"
+        android:layout_alignEnd="@+id/buttonSendMessage" />
 
 </RelativeLayout>
