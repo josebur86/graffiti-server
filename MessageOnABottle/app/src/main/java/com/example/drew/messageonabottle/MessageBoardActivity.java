@@ -30,8 +30,7 @@ import java.util.List;
 public class MessageBoardActivity extends ListActivity {
 
     private ListView _mainMessageList;
-    private ArrayAdapter _arrayAdapter;
-    private ChatMessageAdapter;
+    private ChatMessageAdapter _chatAdapter;
     private List<ChatMessage> _nameList = new ArrayList<ChatMessage>();
     private TextView _messageEdit;
     private ImageButton _pictureButton;
@@ -63,14 +62,14 @@ public class MessageBoardActivity extends ListActivity {
             }
         });
 
-        _mainMessageList = (ListView) findViewById(R.id.messageList);
-        _arrayAdapter = new ArrayAdapter(this,
+        _mainMessageList = (ListView) findViewById(android.R.id.list);
+        _chatAdapter = new ChatMessageAdapter(this,
                                          R.layout.list_item_style,
                                          _nameList);
-        _mainMessageList.setAdapter(_arrayAdapter);
+        _mainMessageList.setAdapter(_chatAdapter);
 
-        _nameList = createChatHistory();
-        _arrayAdapter.notifyDataSetChanged();
+        createChatHistory();
+        _chatAdapter.notifyDataSetChanged();
 
         _socket.on("new message", _messageListener);
 
@@ -79,56 +78,53 @@ public class MessageBoardActivity extends ListActivity {
         _socket.emit("add user", _username);
     }
 
-    private ArrayList<ChatMessage> createChatHistory() {
-        ArrayList<ChatMessage> chatHistory = new ArrayList<ChatMessage>();
+    private void createChatHistory() {
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("BlondieBoo",
                         "OMG",
                         null,
                         "Sub Zero Vodka Bar"));
 
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("BlondieBoo",
                                 "SNOOP JUST SHOWED UP! WHAT??",
                                 null,
                                 "Sub Zero Vodka Bar"));
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("Ashley91",
                                 "Whats up???",
                                 null,
                                 "Drunken Fish"));
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("STL-Chad",
                                 "Snoop?? RIGHT. #DoubtIt",
                                 null,
                                 "Llywelyn’s Pub"));
 
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("BlondieBoo",
                                 null,
                                 null,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
                                 "Sub Zero Vodka Bar"));
 
-        chatHistory.add(
+        _nameList.add(
                 new ChatMessage("CrayCrayTrain",
                         "not going to work tomorrow! ready to get crazy! #upforwhatever",
                         null,
                         "International Tap House"));
 
 
-        return chatHistory;
-
     }
 
     private void onSend() {
         String message = _messageEdit.getText().toString().trim();
         addMessage(_username, message, null); //TODO TODO TODO Actually use an image if we have one
-        _arrayAdapter.notifyDataSetChanged();
+        _chatAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");
     }
@@ -181,7 +177,7 @@ public class MessageBoardActivity extends ListActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             addMessage(_username, "", imageBitmap);
-            _arrayAdapter.notifyDataSetChanged();
+            _chatAdapter.notifyDataSetChanged();
         }
     }
 
@@ -196,7 +192,7 @@ public class MessageBoardActivity extends ListActivity {
                         String username = data.getString("username");
                         String message = data.getString("message");
                         addMessage(username, message, null); //TODO TODO TODO Images go here maybe one day?
-                        _arrayAdapter.notifyDataSetChanged();
+                        _chatAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jetters on 5/17/15.
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
-    private ArrayList<ChatMessage> items;
+    private List<ChatMessage> items;
 
-    public ChatMessageAdapter(Context context, int textViewResourceId, ArrayList<ChatMessage> items) {
+    public ChatMessageAdapter(Context context, int textViewResourceId, List<ChatMessage> items) {
         super(context, textViewResourceId, items);
         this.items = items;
     }
@@ -27,23 +28,18 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         if (v == null) {
-            //LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //v = vi.inflate(R.layout.row, null);
+            LayoutInflater li = LayoutInflater.from(getContext());
+            v = li.inflate(R.layout.list_item_style, null);
         }
-        ChatMessage msg = items.get(position);
-        if (msg != null) {
-            //TextView userNameTextView = (TextView) v.findViewById(R.id.userNameTextView);
-            //TextView chatMessageTextView = (TextView) v.findViewById(R.id.chatMessageTextView);
-            //TextView locationTextView = (TextView) v.findViewById(R.id.locationTextView);
-            //ImageThingy imageView = (ImageView) v.findViewById(R.id.imageView);
-            //chatMessageTextView.setText(msg.Message);
-            //locationTextView.setText(msg.UserLocation);
-            //userNameTextView.setText(msg.UserName);
 
-            if(msg.Image != null){
-                //imageView.setImage(msg.Image);
-            }
-        }
+        ChatMessage message = items.get(position);
+
+        TextView userText = (TextView) v.findViewById(R.id.chat_user);
+        userText.setText(message.UserName);
+
+        TextView messageText = (TextView) v.findViewById(R.id.chat_message);
+        messageText.setText(message.Message);
+
         return v;
     }
 }

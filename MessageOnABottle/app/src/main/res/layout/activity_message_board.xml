@@ -14,7 +14,7 @@
         android:id="@+id/boardTitle" />-->
 
     <ListView
-        android:id="@+id/messageList"
+        android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
