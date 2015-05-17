@@ -1,12 +1,16 @@
 package com.example.drew.messageonabottle;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,8 +34,11 @@ public class MessageBoardActivity extends ActionBarActivity {
 
     private TextView _messageEdit;
     private Button _sendButton;
+    private ImageButton _pictureButton;
 
     private String _username;
+
+    static final int REQ_IMAGE_CAPTURE = 1;
 
     private Socket _socket;
     {
@@ -51,6 +58,13 @@ public class MessageBoardActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 onSend();
+            }
+        });
+        _pictureButton = (ImageButton) findViewById(R.id.sendPicture);
+        _pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPicture();
             }
         });
 
@@ -80,6 +94,13 @@ public class MessageBoardActivity extends ActionBarActivity {
         _arrayAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");
+    }
+
+    private void onPicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQ_IMAGE_CAPTURE);
+        }
     }
 
     @Override
@@ -113,6 +134,17 @@ public class MessageBoardActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            ChatMessage message = new ChatMessage(_username, "", imageBitmap, "CIC, USA");
+            // TODO: add this to view.
+        }
     }
 
     private Emitter.Listener _messageListener = new Emitter.Listener() {
