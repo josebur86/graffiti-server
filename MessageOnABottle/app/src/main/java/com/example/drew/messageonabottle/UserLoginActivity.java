@@ -3,6 +3,7 @@ package com.example.drew.messageonabottle;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,25 +19,18 @@ public class UserLoginActivity extends ActionBarActivity {
     private EditText userNameEditText;
     private Button loginButton;
     private String _userName;
-    private String _serverUri;
-
-    Socket _socket;
-    {
-        try {
-            _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
-        } catch (URISyntaxException e) {}
-    }
+    private final static String _defaultServerUri = "https://thawing-island-7364.herokuapp.com/";
+    private String qrCodeUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-
-        Bundle extras = getIntent().getExtras();
-        _serverUri = extras.getString("serverUri", "https://thawing-island-7364.herokuapp.com/");
-
         userNameEditText = (EditText)findViewById(R.id.userNameEditText);
         loginButton = (Button)findViewById(R.id.loginButton);
+
+        Bundle extras = getIntent().getExtras();
+        qrCodeUri = extras.getString("serverUri", _defaultServerUri);
     }
 
     public void doLogin(View view) {
@@ -45,12 +39,11 @@ public class UserLoginActivity extends ActionBarActivity {
         if (userName == null || userName.isEmpty())
             userName = new String("DefaultUserMcGee");
 
-        _socket.connect();
-        _socket.emit("add user", userName);
-
         Intent messageBoardIntent = new Intent();
         messageBoardIntent.putExtra("userName", userName);
+        messageBoardIntent.putExtra("serverUri", qrCodeUri);
         messageBoardIntent.setClass(this, MessageBoardActivity.class);
+
         startActivity(messageBoardIntent);
     }
 
