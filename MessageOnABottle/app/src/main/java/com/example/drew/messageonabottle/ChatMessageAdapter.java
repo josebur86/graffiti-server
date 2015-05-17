@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,6 +34,14 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         }
 
         ChatMessage message = items.get(position);
+
+        ImageView image = (ImageView) v.findViewById(R.id.chat_pic);
+        if (message.Image != null) {
+            image.setImageBitmap(message.Image);
+        }
+        else {
+            image.setImageDrawable(null);
+        }
 
         TextView userText = (TextView) v.findViewById(R.id.chat_user);
         userText.setText(message.UserName);
