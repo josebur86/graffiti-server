@@ -4,13 +4,36 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MessageBoardActivity extends ActionBarActivity {
+
+    ListView mainMessageList;
+    ArrayAdapter mArrayAdapter;
+    ArrayList mNameList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_board);
+
+        mainMessageList = (ListView) findViewById(R.id.messageList);
+
+        mArrayAdapter = new ArrayAdapter(this,
+                        android.R.layout.simple_list_item_1,
+                        mNameList);
+
+        mainMessageList.setAdapter(mArrayAdapter);
+
+        mNameList.add("Test1");
+        mNameList.add("Test2");
+        mNameList.add("Test3");
+        mNameList.add("Test4");
+
+        mArrayAdapter.notifyDataSetChanged();
     }
 
     @Override
