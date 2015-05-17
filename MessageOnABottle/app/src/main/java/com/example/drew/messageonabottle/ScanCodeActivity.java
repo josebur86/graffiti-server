@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -16,7 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class ScanCodeActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private Button _scanCodeButton;
+    private ImageButton _scanCodeButton;
     private Toast _toast;
 
     @Override
@@ -24,7 +25,7 @@ public class ScanCodeActivity extends ActionBarActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
         _toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-        _scanCodeButton = (Button) findViewById(R.id.scan_code_button);
+        _scanCodeButton = (ImageButton) findViewById(R.id.scan_code_button);
         _scanCodeButton.setOnClickListener(this);
     }
 

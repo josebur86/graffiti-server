@@ -6,7 +6,11 @@
     </style>
 
     <style name="BudLightTheme" parent="AppTheme">
-        <item name="android:windowBackground">@color/BL_dark_blue</item>
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
+
+    <style name="MyActionBarTheme">
+        <item name="android:background">@color/BL_light_blue</item>
     </style>
 
 </resources>
