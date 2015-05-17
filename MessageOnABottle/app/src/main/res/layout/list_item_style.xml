@@ -7,8 +7,9 @@
     android:background="@color/BL_light_blue">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="600px"
+        android:layout_height="600px"
+        android:visibility="gone"
         android:id="@+id/chat_pic" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
