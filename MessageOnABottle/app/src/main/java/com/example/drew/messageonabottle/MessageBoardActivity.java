@@ -7,33 +7,57 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MessageBoardActivity extends ActionBarActivity {
 
-    ListView mainMessageList;
-    ArrayAdapter mArrayAdapter;
-    ArrayList mNameList = new ArrayList();
+    private ListView _mainMessageList;
+    private ArrayAdapter _arrayAdapter;
+    private List<String> _nameList = new ArrayList<>();
+
+    private Socket _socket;
+    {
+        try {
+            _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
+        } catch (URISyntaxException e) {}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_board);
 
-        mainMessageList = (ListView) findViewById(R.id.messageList);
+        _mainMessageList = (ListView) findViewById(R.id.messageList);
+        _arrayAdapter = new ArrayAdapter(this,
+                                         R.layout.list_item_style,
+                                         _nameList);
+        _mainMessageList.setAdapter(_arrayAdapter);
 
-        mArrayAdapter = new ArrayAdapter(this,
-                        R.layout.list_item_style,
-                        mNameList);
+        _socket.on("login", _historyListener);
+        _socket.connect();
 
-        mainMessageList.setAdapter(mArrayAdapter);
+        _socket.emit("add user", "Android");
+    }
 
-        mNameList.add("Test1");
-        mNameList.add("Test2");
-        mNameList.add("Test3");
-        mNameList.add("Test4");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-        mArrayAdapter.notifyDataSetChanged();
+        _socket.disconnect();
+    }
+
+    private void addMessage(String user, String message) {
+        _nameList.add(user + " " + message);
     }
 
     @Override
@@ -58,4 +82,27 @@ public class MessageBoardActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private Emitter.Listener _historyListener = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        JSONArray history =  data.getJSONArray("history");
+                        for (int i = 0; i < history.length(); i++) {
+                            JSONObject historyItem = history.getJSONObject(i);
+                            String username = historyItem.getString("username");
+                            String message = historyItem.getString("message");
+                            addMessage(username, message);
+                        }
+                        _arrayAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+    };
 }

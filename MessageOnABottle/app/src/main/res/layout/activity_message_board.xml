@@ -23,6 +23,8 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="5.0sp"
         android:background="@color/BL_light_blue"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"
         />
 
     <LinearLayout
