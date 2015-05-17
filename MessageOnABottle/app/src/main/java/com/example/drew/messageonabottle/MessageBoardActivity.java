@@ -229,7 +229,7 @@ public class MessageBoardActivity extends ListActivity {
             _snoopBitmap = result;
 
             try {
-                Thread.sleep(2000);               
+                Thread.sleep(1500);
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -244,7 +244,7 @@ public class MessageBoardActivity extends ListActivity {
 
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1500);
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
