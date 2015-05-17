@@ -44,9 +44,12 @@ public class MessageBoardActivity extends ActionBarActivity {
         _mainMessageList.setAdapter(_arrayAdapter);
 
         _socket.on("login", _historyListener);
-        _socket.connect();
+        _socket.on("new message", _messageListener);
 
+        // This will need to move to the username activity.
+        _socket.connect();
         _socket.emit("add user", "Android");
+        // -------------------------------- //
     }
 
     @Override
@@ -57,7 +60,7 @@ public class MessageBoardActivity extends ActionBarActivity {
     }
 
     private void addMessage(String user, String message) {
-        _nameList.add(user + " " + message);
+        _nameList.add(user + ": " + message);
     }
 
     @Override
@@ -97,6 +100,26 @@ public class MessageBoardActivity extends ActionBarActivity {
                             String message = historyItem.getString("message");
                             addMessage(username, message);
                         }
+                        _arrayAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener _messageListener = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        String username = data.getString("username");
+                        String message = data.getString("message");
+                        addMessage(username, message);
                         _arrayAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
