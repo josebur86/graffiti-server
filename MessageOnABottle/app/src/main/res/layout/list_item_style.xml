@@ -14,7 +14,10 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bluebox">
 
         <TextView android:layout_height="50dp"
             android:layout_width="wrap_content"
@@ -23,6 +26,8 @@
             android:background="@color/BL_dark_blue"
             android:textColor="@color/BL_gray"
             android:paddingLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             />
 
@@ -34,6 +39,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="30dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/chat_message"
             android:background="@color/BL_dark_blue"
             android:textColor="@color/BL_white"/>
