@@ -233,6 +233,9 @@ $(function() {
     log(message, {
       prepend: true
     });
+    data.history.forEach(function(element, index, arr) {
+      addChatMessage(element);
+    });
     addParticipantsMessage(data);
   });
 

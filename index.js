@@ -17,6 +17,9 @@ app.use(express.static(__dirname + '/public'));
 // usernames which are currently connected to the chat
 var usernames = {};
 var numUsers = 0;
+var messages = [];
+
+var historyLength = 5;
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -24,10 +27,12 @@ io.on('connection', function (socket) {
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    var messageData = {
       username: socket.username,
       message: data
-    });
+    };
+    messages.push(messageData);
+    socket.broadcast.emit('new message', messageData);
   });
 
   // when the client emits 'add user', this listens and executes
@@ -38,8 +43,13 @@ io.on('connection', function (socket) {
     usernames[username] = username;
     ++numUsers;
     addedUser = true;
+    var history = messages;
+    if (messages.length >= historyLength) {
+      history = history.slice(messages.length-historyLength, messages.length);
+    }
     socket.emit('login', {
-      numUsers: numUsers
+      numUsers: numUsers,
+      history: history
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
