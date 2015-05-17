@@ -60,7 +60,13 @@ public class MessageBoardActivity extends ActionBarActivity {
                                          _nameList);
         _mainMessageList.setAdapter(_arrayAdapter);
 
-        _socket.on("login", _historyListener);
+        addMessage("lt. baggins", "not going to work tomorrow! ready to get crazy! #upforwhatever");
+        addMessage("max1", "[picture]");
+        addMessage("charlie", "OMG SNOOP IS HERE");
+        addMessage("Hooterstump", "hi");
+        addMessage("ordinal", "u dtbf");
+        _arrayAdapter.notifyDataSetChanged();
+
         _socket.on("new message", _messageListener);
 
         _username = getIntent().getStringExtra("userName");
@@ -108,30 +114,6 @@ public class MessageBoardActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private Emitter.Listener _historyListener = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    try {
-                        JSONArray history =  data.getJSONArray("history");
-                        for (int i = 0; i < history.length(); i++) {
-                            JSONObject historyItem = history.getJSONObject(i);
-                            String username = historyItem.getString("username");
-                            String message = historyItem.getString("message");
-                            addMessage(username, message);
-                        }
-                        _arrayAdapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-        }
-    };
 
     private Emitter.Listener _messageListener = new Emitter.Listener() {
         @Override
