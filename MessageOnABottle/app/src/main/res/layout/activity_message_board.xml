@@ -14,7 +14,7 @@
         android:id="@+id/boardTitle" />-->
 
     <ListView
-        android:id="@+id/messageList"
+        android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
@@ -32,6 +32,18 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
 
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:height="200sp"
+                android:width="500sp"
+                android:ems="10"
+                android:id="@+id/editMessage"
+                android:layout_gravity="start"
+                android:layout_weight="80"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
             <ImageButton
                 android:id="@+id/sendPicture"
                 android:layout_width="55dp"
@@ -41,27 +53,6 @@
                 android:background="@color/BL_dark_blue"
                 android:textColor="@color/BL_white" />
 
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:height="200sp"
-                android:width="500sp"
-                android:ems="10"
-                android:id="@+id/editMessage"
-                android:layout_gravity="start"
-                android:layout_weight="80" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/SendMessage"
-                android:id="@+id/buttonSendMessage"
-                android:background="@color/BL_dark_blue"
-                android:textColor="@color/BL_white"
-                android:onClick="onClickButtonSendMessage"
-                android:layout_gravity="end"
-                android:layout_weight="15" />
     </LinearLayout>
 
 </LinearLayout>
