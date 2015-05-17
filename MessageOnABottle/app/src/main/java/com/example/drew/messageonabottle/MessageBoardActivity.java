@@ -23,7 +23,7 @@ public class MessageBoardActivity extends ActionBarActivity {
         mainMessageList = (ListView) findViewById(R.id.messageList);
 
         mArrayAdapter = new ArrayAdapter(this,
-                        android.R.layout.simple_list_item_1,
+                        R.layout.list_item_style,
                         mNameList);
 
         mainMessageList.setAdapter(mArrayAdapter);
