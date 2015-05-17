@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +32,6 @@ public class MessageBoardActivity extends ActionBarActivity {
     private ArrayAdapter _arrayAdapter;
     private List<ChatMessage> _nameList = new ArrayList<ChatMessage>();
     private TextView _messageEdit;
-    private Button _sendButton;
     private ImageButton _pictureButton;
 
     private String _username;
@@ -51,13 +51,8 @@ public class MessageBoardActivity extends ActionBarActivity {
         setContentView(R.layout.activity_message_board);
 
         _messageEdit = (TextView) findViewById(R.id.editMessage);
-        _sendButton = (Button) findViewById(R.id.buttonSendMessage);
-        _sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSend();
-            }
-        });
+        _messageEdit.setOnKeyListener(new ReturnKeyListener());
+
         _pictureButton = (ImageButton) findViewById(R.id.sendPicture);
         _pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +113,7 @@ public class MessageBoardActivity extends ActionBarActivity {
                                 "Sub Zero Vodka Bar"));
 
         chatHistory.add(
-                new ChatMessage("CryzTrain",
+                new ChatMessage("CrayCrayTrain",
                         "not going to work tomorrow! ready to get crazy! #upforwhatever",
                         null,
                         "International Tap House"));
@@ -183,8 +178,8 @@ public class MessageBoardActivity extends ActionBarActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            ChatMessage message = new ChatMessage(_username, "", imageBitmap, "CIC, USA");
-            // TODO: add this to view.
+            addMessage(_username, "", imageBitmap);
+            _arrayAdapter.notifyDataSetChanged();
         }
     }
 
@@ -207,4 +202,16 @@ public class MessageBoardActivity extends ActionBarActivity {
             });
         }
     };
+
+    private class ReturnKeyListener implements View.OnKeyListener {
+
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                onSend();
+                return true;
+            }
+            return false;
+        }
+    }
 }
