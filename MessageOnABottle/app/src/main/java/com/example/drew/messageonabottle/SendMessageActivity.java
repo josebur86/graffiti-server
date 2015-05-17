@@ -35,7 +35,7 @@ public class SendMessageActivity extends ActionBarActivity {
         _toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         _socket.connect();
-        String username = "LOL_u";
+        String username = "EttersNexus";
         _socket.emit("add user", username);
         _socket.on("new message", onNewMessage);
     }
