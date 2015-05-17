@@ -106,7 +106,7 @@ public class MessageBoardActivity extends ListActivity {
                 new ChatMessage("Ashley91",
                                 "Whats up???",
                                 null,
-                                "Drunken Fish"));
+                                "Tom's Bar and Grill"));
 
         _nameList.add(
                 new ChatMessage("STL-Chad",
@@ -118,7 +118,7 @@ public class MessageBoardActivity extends ListActivity {
                 new ChatMessage("CrayCrayTrain",
                         "not going to work tomorrow! ready to get crazy! #upforwhatever",
                         null,
-                        "International Tap House"));
+                        "I-Tap"));
 
         _chatAdapter.notifyDataSetChanged();
 
@@ -127,7 +127,7 @@ public class MessageBoardActivity extends ListActivity {
 
     private void onSend() {
         String message = _messageEdit.getText().toString().trim();
-        addMessage(_username, message, null); //TODO TODO TODO Actually use an image if we have one
+        addMessage(_username, message, null, null);
         _chatAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");
@@ -147,8 +147,8 @@ public class MessageBoardActivity extends ListActivity {
         _socket.disconnect();
     }
 
-    private void addMessage(String user, String message, Bitmap image) {
-        ChatMessage newChatMessage = new ChatMessage(user, message, image, "C-I-C, USA");
+    private void addMessage(String user, String message, Bitmap image, String userLocation) {
+        ChatMessage newChatMessage = new ChatMessage(user, message, image, userLocation);
         _nameList.add(newChatMessage);
     }
 
@@ -180,7 +180,7 @@ public class MessageBoardActivity extends ListActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            addMessage(_username, "", imageBitmap);
+            addMessage(_username, "", imageBitmap, "C-I-C, USA");
             _chatAdapter.notifyDataSetChanged();
         }
     }
@@ -195,7 +195,7 @@ public class MessageBoardActivity extends ListActivity {
                     try {
                         String username = data.getString("username");
                         String message = data.getString("message");
-                        addMessage(username, message, null); //TODO TODO TODO Images go here maybe one day?
+                        addMessage(username, message, null, "C-I-C, USA");
                         _chatAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -228,14 +228,29 @@ public class MessageBoardActivity extends ListActivity {
         protected void onPostExecute(Bitmap result) {
             _snoopBitmap = result;
 
+            try {
+                Thread.sleep(1500);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
             ChatMessage msg = new ChatMessage("BlondieBoo",
                             null,
-                            _snoopBitmap,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
-                            "Sub Zero Vodka Bar");
+                            _snoopBitmap,  // add  bitmap of snoop partying at sub zero vodka bar.
+                           "Sub Zero Vodka Bar");
 
-            addMessage("BlondieBoo", null, _snoopBitmap);
+            addMessage("BlondieBoo", null, _snoopBitmap, "Sub Zero Vodka Bar");
             _chatAdapter.notifyDataSetChanged();
 
+
+            try {
+                Thread.sleep(1500);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            addMessage("STL-Chad", "OMG Thats crazy I'm on my way!", null, "Llywelyn’s Pub");
+            _chatAdapter.notifyDataSetChanged();
         }
     }
 

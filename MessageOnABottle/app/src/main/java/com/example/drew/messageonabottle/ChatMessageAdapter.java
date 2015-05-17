@@ -38,13 +38,15 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         ImageView image = (ImageView) v.findViewById(R.id.chat_pic);
         if (message.Image != null) {
             image.setImageBitmap(message.Image);
+            image.setVisibility(View.VISIBLE);
         }
         else {
             image.setImageDrawable(null);
+            image.setVisibility(View.GONE);
         }
 
         TextView userText = (TextView) v.findViewById(R.id.chat_user);
-        userText.setText(message.UserName);
+        userText.setText(message.UserName + "\n[" + message.UserLocation + "]");
 
         TextView messageText = (TextView) v.findViewById(R.id.chat_message);
         messageText.setText(message.Message);
