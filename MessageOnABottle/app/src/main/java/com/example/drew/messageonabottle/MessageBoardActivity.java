@@ -123,7 +123,7 @@ public class MessageBoardActivity extends ListActivity {
 
     private void onSend() {
         String message = _messageEdit.getText().toString().trim();
-        addMessage(_username, message, null, null);
+        addMessage(_username, message, null, "CIC");
         _chatAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");
