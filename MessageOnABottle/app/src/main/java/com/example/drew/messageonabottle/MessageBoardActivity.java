@@ -114,13 +114,6 @@ public class MessageBoardActivity extends ListActivity {
                                 null,
                                 "Llywelyn’s Pub"));
 
-
-        _nameList.add(
-                new ChatMessage("BlondieBoo",
-                                null,
-                                _snoopBitmap,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
-                                "Sub Zero Vodka Bar"));
-
         _nameList.add(
                 new ChatMessage("CrayCrayTrain",
                         "not going to work tomorrow! ready to get crazy! #upforwhatever",
@@ -234,6 +227,15 @@ public class MessageBoardActivity extends ListActivity {
 
         protected void onPostExecute(Bitmap result) {
             _snoopBitmap = result;
+
+            ChatMessage msg = new ChatMessage("BlondieBoo",
+                            null,
+                            _snoopBitmap,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
+                            "Sub Zero Vodka Bar");
+
+            addMessage("BlondieBoo", null, _snoopBitmap);
+            _chatAdapter.notifyDataSetChanged();
+
         }
     }
 
