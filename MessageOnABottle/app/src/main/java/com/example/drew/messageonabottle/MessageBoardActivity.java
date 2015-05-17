@@ -1,12 +1,17 @@
 package com.example.drew.messageonabottle;
 
+import android.app.ListActivity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +19,6 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,16 +26,19 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBoardActivity extends ActionBarActivity {
+public class MessageBoardActivity extends ListActivity {
 
     private ListView _mainMessageList;
     private ArrayAdapter _arrayAdapter;
-    private List<String> _nameList = new ArrayList<String>();
-
+    private ChatMessageAdapter;
+    private List<ChatMessage> _nameList = new ArrayList<ChatMessage>();
     private TextView _messageEdit;
     private Button _sendButton;
+    private ImageButton _pictureButton;
 
     private String _username;
+
+    static final int REQ_IMAGE_CAPTURE = 1;
 
     private Socket _socket;
     {
@@ -53,6 +60,13 @@ public class MessageBoardActivity extends ActionBarActivity {
                 onSend();
             }
         });
+        _pictureButton = (ImageButton) findViewById(R.id.sendPicture);
+        _pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPicture();
+            }
+        });
 
         _mainMessageList = (ListView) findViewById(R.id.messageList);
         _arrayAdapter = new ArrayAdapter(this,
@@ -60,11 +74,7 @@ public class MessageBoardActivity extends ActionBarActivity {
                                          _nameList);
         _mainMessageList.setAdapter(_arrayAdapter);
 
-        addMessage("lt. baggins", "not going to work tomorrow! ready to get crazy! #upforwhatever");
-        addMessage("max1", "[picture]");
-        addMessage("charlie", "OMG SNOOP IS HERE");
-        addMessage("Hooterstump", "hi");
-        addMessage("ordinal", "u dtbf");
+        _nameList = createChatHistory();
         _arrayAdapter.notifyDataSetChanged();
 
         _socket.on("new message", _messageListener);
@@ -74,12 +84,65 @@ public class MessageBoardActivity extends ActionBarActivity {
         _socket.emit("add user", _username);
     }
 
+    private ArrayList<ChatMessage> createChatHistory() {
+        ArrayList<ChatMessage> chatHistory = new ArrayList<ChatMessage>();
+
+        chatHistory.add(
+                new ChatMessage("BlondieBoo",
+                        "OMG",
+                        null,
+                        "Sub Zero Vodka Bar"));
+
+
+        chatHistory.add(
+                new ChatMessage("BlondieBoo",
+                                "SNOOP JUST SHOWED UP! WHAT??",
+                                null,
+                                "Sub Zero Vodka Bar"));
+
+        chatHistory.add(
+                new ChatMessage("Ashley91",
+                                "Whats up???",
+                                null,
+                                "Drunken Fish"));
+
+        chatHistory.add(
+                new ChatMessage("STL-Chad",
+                                "Snoop?? RIGHT. #DoubtIt",
+                                null,
+                                "Llywelyn’s Pub"));
+
+
+        chatHistory.add(
+                new ChatMessage("BlondieBoo",
+                                null,
+                                null,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
+                                "Sub Zero Vodka Bar"));
+
+        chatHistory.add(
+                new ChatMessage("CryzTrain",
+                        "not going to work tomorrow! ready to get crazy! #upforwhatever",
+                        null,
+                        "International Tap House"));
+
+
+        return chatHistory;
+
+    }
+
     private void onSend() {
         String message = _messageEdit.getText().toString().trim();
-        addMessage(_username, message);
+        addMessage(_username, message, null); //TODO TODO TODO Actually use an image if we have one
         _arrayAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");
+    }
+
+    private void onPicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQ_IMAGE_CAPTURE);
+        }
     }
 
     @Override
@@ -89,8 +152,9 @@ public class MessageBoardActivity extends ActionBarActivity {
         _socket.disconnect();
     }
 
-    private void addMessage(String user, String message) {
-        _nameList.add(user + ": " + message);
+    private void addMessage(String user, String message, Bitmap image) {
+        ChatMessage newChatMessage = new ChatMessage(user, message, image, "C-I-C, USA");
+        _nameList.add(newChatMessage);
     }
 
     @Override
@@ -115,6 +179,17 @@ public class MessageBoardActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            ChatMessage message = new ChatMessage(_username, "", imageBitmap, "CIC, USA");
+            // TODO: add this to view.
+        }
+    }
+
     private Emitter.Listener _messageListener = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
@@ -125,7 +200,7 @@ public class MessageBoardActivity extends ActionBarActivity {
                     try {
                         String username = data.getString("username");
                         String message = data.getString("message");
-                        addMessage(username, message);
+                        addMessage(username, message, null); //TODO TODO TODO Images go here maybe one day?
                         _arrayAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
