@@ -61,18 +61,10 @@ public class ScanCodeActivity extends ActionBarActivity implements View.OnClickL
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             String scanResultString = scanResult.getContents();
-            Intent messageIntent = new Intent();
-
-            if (scanResultString.equals("ReceiveMessage"))
-            {
-                messageIntent.setClass(this, ReceiveMessageActivity.class);
-            }
-            else
-            {
-                messageIntent.setClass(this, SendMessageActivity.class);
-            }
-
-            startActivity(messageIntent);
+            Intent loginIntent = new Intent();
+            loginIntent.putExtra("serverUri", scanResultString);
+            loginIntent.setClass(this, UserLoginActivity.class);
+            startActivity(loginIntent);
         }
     }
 }

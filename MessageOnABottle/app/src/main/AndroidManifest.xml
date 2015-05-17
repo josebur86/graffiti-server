@@ -14,14 +14,14 @@
         <activity
             android:name=".ScanCodeActivity"
             android:label="@string/title_activity_scan_code" >
-        </activity>
-        <activity
-            android:name=".UserLoginActivity"
-            android:label="@string/title_activity_user_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserLoginActivity"
+            android:label="@string/title_activity_user_login" >
         </activity>
         <activity
             android:name=".MessageBoardActivity"

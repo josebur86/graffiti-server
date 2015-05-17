@@ -18,6 +18,7 @@ public class UserLoginActivity extends ActionBarActivity {
     private EditText userNameEditText;
     private Button loginButton;
     private String _userName;
+    private String _serverUri;
 
     Socket _socket;
     {
@@ -30,15 +31,25 @@ public class UserLoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
+
+        Bundle extras = getIntent().getExtras();
+        _serverUri = extras.getString("serverUri", "https://thawing-island-7364.herokuapp.com/");
+
         userNameEditText = (EditText)findViewById(R.id.userNameEditText);
         loginButton = (Button)findViewById(R.id.loginButton);
     }
 
     public void doLogin(View view) {
         String userName = userNameEditText.getText().toString();
+
+        if (userName == null || userName.isEmpty())
+            userName = new String("DefaultUserMcGee");
+
         _socket.connect();
         _socket.emit("add user", userName);
+
         Intent messageBoardIntent = new Intent();
+        messageBoardIntent.putExtra("userName", userName);
         messageBoardIntent.setClass(this, MessageBoardActivity.class);
         startActivity(messageBoardIntent);
     }
