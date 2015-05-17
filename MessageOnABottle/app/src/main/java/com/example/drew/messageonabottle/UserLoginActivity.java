@@ -4,13 +4,40 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
 
 public class UserLoginActivity extends ActionBarActivity {
+
+    private EditText userNameEditText;
+    private Button loginButton;
+    private String _userName;
+
+    Socket _socket;
+    {
+        try {
+            _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
+        } catch (URISyntaxException e) {}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
+        userNameEditText = (EditText)findViewById(R.id.userNameEditText);
+        loginButton = (Button)findViewById(R.id.loginButton);
+    }
+
+    public void doLogin(View view) {
+        String userName = userNameEditText.getText().toString();
+        _socket.connect();
+        _socket.emit("add user", userName);
+        _socket.disconnect;
     }
 
     @Override
