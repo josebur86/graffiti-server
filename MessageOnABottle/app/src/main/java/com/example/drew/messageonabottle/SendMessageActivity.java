@@ -1,11 +1,13 @@
 package com.example.drew.messageonabottle;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class SendMessageActivity extends ActionBarActivity {
 
     private Toast _toast;
     private Socket _socket;
+    private String _userName;
     {
         try {
             _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
@@ -33,10 +36,9 @@ public class SendMessageActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         _toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-
         _socket.connect();
-        String username = "LOL_u";
-        _socket.emit("add user", username);
+
+        _socket.emit("add user", _userName);
         _socket.on("new message", onNewMessage);
     }
 
