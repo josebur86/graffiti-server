@@ -1,5 +1,6 @@
 package com.example.drew.messageonabottle;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,7 +38,9 @@ public class UserLoginActivity extends ActionBarActivity {
         String userName = userNameEditText.getText().toString();
         _socket.connect();
         _socket.emit("add user", userName);
-        _socket.disconnect;
+        Intent messageBoardIntent = new Intent();
+        messageBoardIntent.setClass(this, MessageBoardActivity.class);
+        startActivity(messageBoardIntent);
     }
 
     @Override

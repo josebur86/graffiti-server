@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/board_title"
+        android:id="@+id/boardTitle" />
+
+    <ListView
+        android:id="@+id/messageList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="90dp"
+                android:inputType="textMultiLine"
+                android:height="200sp"
+                android:width="500sp"
+                android:ems="10"
+                android:id="@+id/editMessage"
+                android:layout_gravity="start"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:text="@string/SendMessage"
+                android:id="@+id/buttonSendMessage"
+                android:background="@color/BL_dark_blue"
+                android:onClick="onClickButtonSendMessage"
+                android:layout_gravity="end" />
+    </LinearLayout>
+
+</LinearLayout>

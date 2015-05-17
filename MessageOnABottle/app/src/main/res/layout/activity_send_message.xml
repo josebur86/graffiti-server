@@ -15,7 +15,6 @@
         android:width="500sp"
         android:ems="10"
         android:id="@+id/editMessage"
-        android:layout_below="@+id/textViewMessageLabel"
          />
 
     <Button
