@@ -8,6 +8,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_user_login">UserLoginActivity</string>
+    <string name="login_dialog_title">Are you ready for anything?</string>
+    <string name="Login">I\'m Ready!!</string>
+    <string name="username">Username</string>
+    <string name="user_login_header_text">Are You Ready For Anything?</string>
 
     <!--<string name="BL_dark_blue">#004b8d</string>
     <string name="BL_light_blue">#00aeef</string>
