@@ -8,11 +8,10 @@
     <string name="title_activity_message_board">CIC, USA</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_user_login">Are You Ready For Anything?</string>
-    <string name="login_dialog_title">Are You Ready For Anything?</string>
-    <string name="Login">I\'m Ready!!</string>
+    <string name="title_activity_user_login">CIC, USA</string>
+    <string name="Login">Let me in!</string>
     <string name="username">Username</string>
-    <string name="user_login_header_text">Are You Ready For Anything?</string>
+    <string name="user_login_header_text">Up for Anything?</string>
     <string name="board_title">Whatever Board Title</string>
     <string name="SendMessage">Send Message</string>
 

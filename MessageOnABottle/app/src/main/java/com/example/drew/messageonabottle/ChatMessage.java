@@ -17,4 +17,6 @@ public class ChatMessage {
         Image = image;
         UserLocation = userLocation;
     }
+    public ChatMessage() {}
+
 }

@@ -23,11 +23,13 @@
         </activity>
         <activity
             android:name=".UserLoginActivity"
-            android:label="@string/title_activity_user_login" >
+            android:label="@string/title_activity_user_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MessageBoardActivity"
-            android:label="@string/title_activity_message_board" >
+            android:label="@string/title_activity_message_board"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
