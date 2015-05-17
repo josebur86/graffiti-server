@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -25,6 +28,9 @@ public class MessageBoardActivity extends ActionBarActivity {
     private ArrayAdapter _arrayAdapter;
     private List<String> _nameList = new ArrayList<>();
 
+    private TextView _messageEdit;
+    private Button _sendButton;
+
     private Socket _socket;
     {
         try {
@@ -37,6 +43,15 @@ public class MessageBoardActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_board);
 
+        _messageEdit = (TextView) findViewById(R.id.editMessage);
+        _sendButton = (Button) findViewById(R.id.buttonSendMessage);
+        _sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSend();
+            }
+        });
+
         _mainMessageList = (ListView) findViewById(R.id.messageList);
         _arrayAdapter = new ArrayAdapter(this,
                                          R.layout.list_item_style,
@@ -45,11 +60,14 @@ public class MessageBoardActivity extends ActionBarActivity {
 
         _socket.on("login", _historyListener);
         _socket.on("new message", _messageListener);
+    }
 
-        // This will need to move to the username activity.
-        _socket.connect();
-        _socket.emit("add user", "Android");
-        // -------------------------------- //
+    private void onSend() {
+        String message = _messageEdit.getText().toString().trim();
+        addMessage("TODO", message);
+        _arrayAdapter.notifyDataSetChanged();
+        _socket.emit("new message", message);
+        _messageEdit.setText("");
     }
 
     @Override
