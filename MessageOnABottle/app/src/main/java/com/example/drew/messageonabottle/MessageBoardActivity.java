@@ -7,16 +7,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -265,5 +261,25 @@ public class MessageBoardActivity extends ListActivity {
             }
             return false;
         }
+    }
+
+    public void onClickUser(View view) {
+        //final EditText messageEditText = (EditText) findViewById(R.id.editMessage);
+
+        //String message = messageEditText.getText().toString().trim();
+        //if (TextUtils.isEmpty(message))
+            //return;
+
+        //_socket.emit("new message", message);
+
+        //_toast.setText(String.format("Sent message: %s", message));
+        //_toast.show();
+
+        Intent mapIntent = new Intent();
+        //messageBoardIntent.putExtra("userName", userName);
+        //messageBoardIntent.putExtra("serverUri", qrCodeUri);
+        mapIntent.setClass(this, MapActivity.class);
+
+        startActivity(mapIntent);
     }
 }

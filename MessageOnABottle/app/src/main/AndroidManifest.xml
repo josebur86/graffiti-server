@@ -31,6 +31,11 @@
             android:label="@string/title_activity_message_board"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="Map"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
