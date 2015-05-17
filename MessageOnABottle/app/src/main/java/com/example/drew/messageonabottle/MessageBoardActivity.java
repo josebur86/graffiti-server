@@ -1,12 +1,19 @@
 package com.example.drew.messageonabottle;
 
 import android.app.ListActivity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -145,6 +152,16 @@ public class MessageBoardActivity extends ListActivity {
 
     private void addMessage(String user, String message, Bitmap image, String userLocation) {
         ChatMessage newChatMessage = new ChatMessage(user, message, image, userLocation);
+
+
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        };
+
         _nameList.add(newChatMessage);
     }
 
@@ -225,28 +242,33 @@ public class MessageBoardActivity extends ListActivity {
             _snoopBitmap = result;
 
             try {
-                Thread.sleep(1500);
-            } catch(InterruptedException ex) {
+                Thread.sleep(3500);
+            } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
 
             ChatMessage msg = new ChatMessage("BlondieBoo",
-                            null,
-                            _snoopBitmap,  // add  bitmap of snoop partying at sub zero vodka bar.
-                           "Sub Zero Vodka Bar");
+                    null,
+                    _snoopBitmap,  // add  bitmap of snoop partying at sub zero vodka bar.
+                    "Sub Zero Vodka Bar");
 
             addMessage("BlondieBoo", null, _snoopBitmap, "Sub Zero Vodka Bar");
             _chatAdapter.notifyDataSetChanged();
 
-
             try {
-                Thread.sleep(1500);
-            } catch(InterruptedException ex) {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
 
             addMessage("STL-Chad", "OMG Thats crazy I'm on my way!", null, "Llywelyn’s Pub");
+
             _chatAdapter.notifyDataSetChanged();
+
+
+        }
+
+        private void playDingALingNoise() {
         }
     }
 
@@ -283,3 +305,4 @@ public class MessageBoardActivity extends ListActivity {
         startActivity(mapIntent);
     }
 }
+
