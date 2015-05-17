@@ -1,8 +1,6 @@
 package com.example.drew.messageonabottle;
 
 import android.app.ListActivity;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -193,7 +189,7 @@ public class MessageBoardActivity extends ListActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            addMessage(_username, "", imageBitmap, "C-I-C, USA");
+            addMessage(_username, "", imageBitmap, "CIC");
             _chatAdapter.notifyDataSetChanged();
         }
     }
@@ -208,7 +204,7 @@ public class MessageBoardActivity extends ListActivity {
                     try {
                         String username = data.getString("username");
                         String message = data.getString("message");
-                        addMessage(username, message, null, "C-I-C, USA");
+                        addMessage(username, message, null, "CIC");
                         _chatAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
