@@ -26,7 +26,7 @@ public class MessageBoardActivity extends ActionBarActivity {
 
     private ListView _mainMessageList;
     private ArrayAdapter _arrayAdapter;
-    private List<String> _nameList = new ArrayList<>();
+    private List<String> _nameList = new ArrayList<String>();
 
     private TextView _messageEdit;
     private Button _sendButton;
