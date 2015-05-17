@@ -3,9 +3,12 @@ package com.example.drew.messageonabottle;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,9 +27,11 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MessageBoardActivity extends ListActivity {
 
@@ -34,7 +40,7 @@ public class MessageBoardActivity extends ListActivity {
     private List<ChatMessage> _nameList = new ArrayList<ChatMessage>();
     private TextView _messageEdit;
     private ImageButton _pictureButton;
-
+    private Bitmap _snoopBitmap;
     private String _username;
 
     static final int REQ_IMAGE_CAPTURE = 1;
@@ -80,6 +86,9 @@ public class MessageBoardActivity extends ListActivity {
 
     private void createChatHistory() {
 
+        new DownloadImageTask(_snoopBitmap)
+                .execute("");
+
         _nameList.add(
                 new ChatMessage("BlondieBoo",
                         "OMG",
@@ -109,7 +118,7 @@ public class MessageBoardActivity extends ListActivity {
         _nameList.add(
                 new ChatMessage("BlondieBoo",
                                 null,
-                                null,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
+                                _snoopBitmap,  //TODO TODO TODO add local bitmap of snoop partying at sub zero vodka bar.
                                 "Sub Zero Vodka Bar"));
 
         _nameList.add(
@@ -117,6 +126,8 @@ public class MessageBoardActivity extends ListActivity {
                         "not going to work tomorrow! ready to get crazy! #upforwhatever",
                         null,
                         "International Tap House"));
+
+        _chatAdapter.notifyDataSetChanged();
 
 
     }
@@ -200,6 +211,32 @@ public class MessageBoardActivity extends ListActivity {
             });
         }
     };
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        Bitmap bmImage;
+
+        public DownloadImageTask(Bitmap bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = "https://dl.dropboxusercontent.com/u/43119507/snoop.jpg";
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            _snoopBitmap = result;
+        }
+    }
+
 
     private class ReturnKeyListener implements View.OnKeyListener {
 
