@@ -2,21 +2,42 @@ package com.example.drew.messageonabottle;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+
 public class SendMessageActivity extends ActionBarActivity {
 
     private Toast _toast;
+    private Socket _socket;
+    {
+        try {
+            _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
+        } catch (URISyntaxException e) {}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         _toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+
+        _socket.connect();
+        String username = "LOL_u";
+        _socket.emit("add user", username);
+        _socket.on("new message", onNewMessage);
     }
 
     @Override
@@ -42,8 +63,38 @@ public class SendMessageActivity extends ActionBarActivity {
     }
 
     public void onClickButtonSendMessage(View view) {
-        final EditText messageText = (EditText) findViewById(R.id.editMessage);
-        _toast.setText(String.format("Sent message: %s", messageText.getText()));
+        final EditText messageEditText = (EditText) findViewById(R.id.editMessage);
+
+        String message = messageEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(message))
+            return;
+
+        _socket.emit("new message", message);
+
+        _toast.setText(String.format("Sent message: %s", message));
         _toast.show();
     }
+
+    private Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    String message;
+                    try {
+                        username = data.getString("username");
+                        message = data.getString("message");
+                    } catch (JSONException e) {
+                        return;
+                    }
+
+                    _toast.setText(String.format("%s said : %s", username, message));
+                    _toast.show();
+                }
+            });
+        }
+    };
 }
