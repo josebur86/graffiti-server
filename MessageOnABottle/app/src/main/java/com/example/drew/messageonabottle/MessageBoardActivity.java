@@ -1,5 +1,6 @@
 package com.example.drew.messageonabottle;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,10 +27,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBoardActivity extends ActionBarActivity {
+public class MessageBoardActivity extends ListActivity {
 
     private ListView _mainMessageList;
     private ArrayAdapter _arrayAdapter;
+    private ChatMessageAdapter;
     private List<ChatMessage> _nameList = new ArrayList<ChatMessage>();
     private TextView _messageEdit;
     private ImageButton _pictureButton;
