@@ -31,6 +31,8 @@ public class MessageBoardActivity extends ActionBarActivity {
     private TextView _messageEdit;
     private Button _sendButton;
 
+    private String _username;
+
     private Socket _socket;
     {
         try {
@@ -60,11 +62,15 @@ public class MessageBoardActivity extends ActionBarActivity {
 
         _socket.on("login", _historyListener);
         _socket.on("new message", _messageListener);
+
+        _username = getIntent().getStringExtra("userName");
+        _socket.connect();
+        _socket.emit("add user", _username);
     }
 
     private void onSend() {
         String message = _messageEdit.getText().toString().trim();
-        addMessage("TODO", message);
+        addMessage(_username, message);
         _arrayAdapter.notifyDataSetChanged();
         _socket.emit("new message", message);
         _messageEdit.setText("");

@@ -29,36 +29,23 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/userNameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/usernameTextView"
-        android:layout_marginLeft="32dp"
-        android:layout_toRightOf="@+id/usernameTextView"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
         android:id="@+id/userNameTextEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_alignBaseline="@+id/usernameTextView"
         android:layout_alignBottom="@+id/usernameTextView"
-        android:layout_alignLeft="@+id/userNameEditText"
-        android:ems="10" />
+        android:layout_toEndOf="@+id/loginButton"
+        android:layout_alignLeft="@+id/loginButton"
+        android:layout_alignStart="@+id/loginButton" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userNameEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp"
-        android:onClick="doLogin"
         android:text="@string/Login"
-        android:layout_alignLeft="@+id/userNameEditText"
-        android:layout_alignStart="@+id/userNameEditText" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 

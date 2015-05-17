@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
@@ -16,7 +18,7 @@ import java.net.URISyntaxException;
 
 public class UserLoginActivity extends ActionBarActivity {
 
-    private EditText userNameEditText;
+    private TextView userNameEditText;
     private Button loginButton;
     private String _userName;
     private final static String _defaultServerUri = "https://thawing-island-7364.herokuapp.com/";
@@ -26,15 +28,21 @@ public class UserLoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-        userNameEditText = (EditText)findViewById(R.id.userNameEditText);
+        userNameEditText = (TextView)findViewById(R.id.userNameTextEdit);
         loginButton = (Button)findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogin(v);
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         qrCodeUri = extras.getString("serverUri", _defaultServerUri);
     }
 
     public void doLogin(View view) {
-        String userName = userNameEditText.getText().toString();
+        String userName = userNameEditText.getText().toString().trim();
 
         if (userName == null || userName.isEmpty())
             userName = new String("DefaultUserMcGee");
