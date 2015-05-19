@@ -49,7 +49,7 @@ public class MessageBoardActivity extends ListActivity implements MessageBoardVi
         _mainMessageList = (ListView) findViewById(android.R.id.list);
 
         String username = getIntent().getStringExtra("userName");
-        _presenter = new MessageBoardPresenter(this, username, "CIC, USA");
+        _presenter = new MessageBoardPresenter(this, username, "TODO");
         _presenter.create();
     }
 

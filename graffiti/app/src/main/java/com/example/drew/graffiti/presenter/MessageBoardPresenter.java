@@ -4,35 +4,23 @@ import android.graphics.Bitmap;
 
 import com.example.drew.graffiti.ChatMessage;
 import com.example.drew.graffiti.MessageBoardView;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import com.example.drew.graffiti.SocketController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MessageBoardPresenter {
 
     private MessageBoardView _view;
+    private SocketController _socketController;
 
     private String _username;
     private String _location;
 
     private List<ChatMessage> _messages;
-
-    // TODO: still not sure if this is the best place for the socket logic.
-    private Socket _socket;
-    {
-        try {
-            _socket = IO.socket("https://thawing-island-7364.herokuapp.com/");
-        } catch (URISyntaxException e) {}
-    }
-
-    private static String kMessageEvent = "new message";
-    private static String kNewUserEvent = "add user";
 
     public MessageBoardPresenter(MessageBoardView view, String username, String location) {
         _view = view;
@@ -45,19 +33,18 @@ public class MessageBoardPresenter {
     public void create() {
         _view.setMessages(_messages);
 
-        _socket.on(kMessageEvent, _view.getMessageListener());
-        _socket.connect();
-        _socket.emit(kNewUserEvent, _username);
+        String server = "https://thawing-island-7364.herokuapp.com/";
+        _socketController = new SocketController(server, _username, _view.getMessageListener());
     }
 
     public void destroy() {
-        _socket.disconnect();
+        _socketController.destroy();
     }
 
     public void sendMessage(String message) {
         _messages.add(new ChatMessage(_username, message, null, _location));
         _view.onAddMessage();
-        _socket.emit(kMessageEvent, message);
+        _socketController.sendMessage(message);
     }
 
     public void sendPicture(Bitmap image) {
