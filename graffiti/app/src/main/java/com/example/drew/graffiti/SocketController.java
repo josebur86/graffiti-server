@@ -14,7 +14,9 @@ public class SocketController {
     public SocketController(String server, String username, MessageListener messageListener) {
         try {
             _socket = IO.socket(server);
-        } catch (URISyntaxException e) {}
+        } catch (URISyntaxException e) {
+            new Logger().log(e.toString());
+        }
 
         _socket.on(kMessageEvent, messageListener);
         _socket.connect();

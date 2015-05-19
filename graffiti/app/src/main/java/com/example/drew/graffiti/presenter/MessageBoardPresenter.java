@@ -3,6 +3,7 @@ package com.example.drew.graffiti.presenter;
 import android.graphics.Bitmap;
 
 import com.example.drew.graffiti.ChatMessage;
+import com.example.drew.graffiti.Logger;
 import com.example.drew.graffiti.MessageBoardView;
 import com.example.drew.graffiti.SocketController;
 
@@ -62,7 +63,8 @@ public class MessageBoardPresenter {
             location = "TODO"; // TODO: get location from the other users.
             message = data.getString("message");
         } catch (JSONException e) {
-            throw new RuntimeException(e); // TODO: seems harsh
+            new Logger().log("receiveMessage(): unable to parse JSON data");
+            return;
         }
 
         _messages.add(new ChatMessage(username, message, null, location));
