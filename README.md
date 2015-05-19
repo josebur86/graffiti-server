@@ -1,2 +1,2 @@
-# graffiti
-Location based chats
+# graffiti-server
+Server for Location based chats
