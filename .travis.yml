@@ -8,4 +8,4 @@ android:
   components:
     - build-tools-21.1.2
 
-script: .graffiti/gradlew connectedAndroidTest
+script: ./graffiti/gradlew connectedAndroidTest
