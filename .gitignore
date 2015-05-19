@@ -1,7 +1,7 @@
 #Ignore Android Studio stuff
 */.idea/
 .idea/
-MessageOnABottle/.idea/
+graffiti/.idea/
 # Built application files
 *.apk
 *.ap_
@@ -30,11 +30,11 @@ proguard/
 # Log Files
 *.log
 
-MessageOnABottle/.idea/misc.xml
+graffiti/.idea/misc.xml
 
-MessageOnABottle/.idea/gradle.xml
+graffiti/.idea/gradle.xml
 
-MessageOnABottle/.idea/misc.xml
+graffiti/.idea/misc.xml
 
 ### Node ###
 ## Logs
@@ -67,22 +67,22 @@ node_modules
 
 .bundle/
 
-MessageOnABottle/.idea/copyright/profiles_settings.xml
+graffiti/.idea/copyright/profiles_settings.xml
 
-MessageOnABottle/.idea/.name
+graffiti/.idea/.name
 
-MessageOnABottle/.idea/compiler.xml
+graffiti/.idea/compiler.xml
 
-MessageOnABottle/.idea/copyright/profiles_settings.xml
+graffiti/.idea/copyright/profiles_settings.xml
 
-MessageOnABottle/.idea/gradle.xml
+graffiti/.idea/gradle.xml
 
-MessageOnABottle/.idea/misc.xml
+graffiti/.idea/misc.xml
 
-MessageOnABottle/.idea/misc.xml
+graffiti/.idea/misc.xml
 
-MessageOnABottle/.idea/gradle.xml
+graffiti/.idea/gradle.xml
 
-MessageOnABottle/.idea/misc.xml
+graffiti/.idea/misc.xml
 
-MessageOnABottle/.idea/gradle.xml
+graffiti/.idea/gradle.xml
