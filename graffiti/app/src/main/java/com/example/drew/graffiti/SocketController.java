@@ -1,11 +1,8 @@
 package com.example.drew.graffiti;
 
-import com.example.drew.graffiti.presenter.MessageBoardPresenter;
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 public class SocketController {
