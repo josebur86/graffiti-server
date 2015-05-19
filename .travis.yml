@@ -1,6 +1,6 @@
 language: java
 jdk: 
-    - openjdk7
+    #- openjdk7
     - oraclejdk7
-script: sh -e 'cd graffiti' 
+script: cd graffiti 
 
