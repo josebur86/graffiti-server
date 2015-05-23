@@ -1,13 +1,13 @@
 {
-  "name": "socket.io-chat",
-  "version": "0.0.0",
-  "description": "A simple chat client using socket.io",
+  "name": "graffiti-server",
+  "version": "0.0.1",
+  "description": "Server for the graffit.",
   "main": "index.js",
-  "author": "Grant Timmerman",
+  "author": "TinyDino",
   "private": true,
   "license": "BSD",
   "dependencies": {
-    "express": "3.4.8",
+    "express": "4.12.4",
     "socket.io": "^1.3.5"
   }
 }
