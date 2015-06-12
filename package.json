@@ -1,7 +1,7 @@
 {
   "name": "graffiti-server",
   "version": "0.0.1",
-  "description": "Server for the graffit.",
+  "description": "Server for the graffiti.",
   "main": "index.js",
   "author": "TinyDino",
   "private": true,

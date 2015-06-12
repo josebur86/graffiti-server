@@ -233,6 +233,12 @@ $(function() {
     log(message, {
       prepend: true
     });
+<<<<<<< HEAD
+=======
+    data.history.forEach(function(element, index, arr) {
+      addChatMessage(element);
+    });
+>>>>>>> heroku/master
     addParticipantsMessage(data);
   });
 
